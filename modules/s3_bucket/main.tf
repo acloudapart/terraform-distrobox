@@ -4,7 +4,7 @@
 locals {
   # This ensures your consultancy's tag is always present for tracking.
   standard_tags = {
-    ManagedBy = "MyCloudConsultancy" 
+    ManagedBy = "A Cloud Apart" 
   }
   final_tags = merge(local.standard_tags, var.tags)
 }
