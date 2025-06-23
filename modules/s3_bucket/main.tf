@@ -65,7 +65,7 @@ resource "aws_s3_bucket_versioning" "this" {
 
 # Simplified Lifecycle configuration
 resource "aws_s3_bucket_lifecycle_configuration" "this" {
-  # Only create lifecycle rules if at least one of the simple vars is set.
+  // Only create lifecycle rules if at least one of the simple vars is set.
   count = var.expire_objects_after_days > 0 || var.transition_to_ia_after_days > 0 ? 1 : 0
 
   bucket = aws_s3_bucket.this.id
@@ -74,8 +74,10 @@ resource "aws_s3_bucket_lifecycle_configuration" "this" {
     id     = "standard-lifecycle-policy"
     status = "Enabled"
 
+    filter {} // Apply to all objects in the bucket
+
     dynamic "transition" {
-      # Only add this block if the variable is set
+      // Only add this block if the variable is set
       for_each = var.transition_to_ia_after_days > 0 ? [var.transition_to_ia_after_days] : []
       content {
         days          = transition.value
@@ -84,14 +86,14 @@ resource "aws_s3_bucket_lifecycle_configuration" "this" {
     }
 
     dynamic "expiration" {
-      # Only add this block if the variable is set
+      // Only add this block if the variable is set
       for_each = var.expire_objects_after_days > 0 ? [var.expire_objects_after_days] : []
       content {
         days = expiration.value
       }
     }
 
-    # Always a good idea to clean up failed multipart uploads
+    // Always a good idea to clean up failed multipart uploads
     abort_incomplete_multipart_upload {
       days_after_initiation = 7
     }
@@ -107,6 +109,6 @@ resource "aws_s3_bucket_logging" "this" {
   target_bucket = var.logging_target_bucket
   target_prefix = var.logging_target_prefix
   
-  # Ensure logging is applied after ownership controls are set
-  depends_on = [ aws_s3_bucket_ownership_controls.this ]
+  // Ensure logging is applied after ownership controls are set
+  depends_on = [aws_s3_bucket_ownership_controls.this]
 }
