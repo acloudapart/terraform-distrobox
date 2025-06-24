@@ -1,7 +1,7 @@
 module "s3_bucket" {
   for_each = local.buckets
 
-  source = "../..//modules/s3_bucket"
+  source = "../../../modules/s3_bucket"
 
   bucket_name            = each.value.bucket_name
   force_destroy          = each.value.force_destroy

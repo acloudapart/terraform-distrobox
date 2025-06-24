@@ -1,0 +1,19 @@
+{
+  "mcpServers": {
+    "github.com/awslabs/mcp/tree/main/src/aws-documentation-mcp-server": {
+      "command": "/home/ron/.local/bin/uvx",
+      "args": ["awslabs.aws-documentation-mcp-server@latest"],
+      "env": {
+        "FASTMCP_LOG_LEVEL": "ERROR",
+        "AWS_DOCUMENTATION_PARTITION": "aws"
+      },
+      "disabled": false,
+      "autoApprove": []
+    },
+    "docker_mcp_gateway": {
+      "transport": "tcp",
+      "command": "docker",
+      "args": ["mcp", "gateway", "run"]
+    }
+  }
+}
